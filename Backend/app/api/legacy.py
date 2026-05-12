@@ -19,7 +19,6 @@ import translate
 import tts
 from app.config import settings
 from app.models.schemas import DeleteAudioRequest, TranslateTextRequest
-<<<<<<< HEAD
 import json
 from pydantic import BaseModel
 
@@ -28,8 +27,6 @@ class AgronomyRequest(BaseModel):
     lon: float
     month: str
     language: str
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
 router = APIRouter(tags=["legacy"])
 
@@ -106,7 +103,6 @@ def get_weather(lat: float, lon: float):
     except Exception:
         raise HTTPException(status_code=502, detail="Unexpected response from weather provider")
 
-<<<<<<< HEAD
 @router.get("/weather-forecast-10")
 def get_weather_forecast_10(lat: float, lon: float):
     api_key = (os.getenv("OPENWEATHER_API_KEY") or "").strip()
@@ -156,12 +152,6 @@ def get_agronomy_advice(req: AgronomyRequest):
 @router.post("/translate-text")
 def translate_text_api(req: TranslateTextRequest):
     translated = translate.translate_text(req.text, req.target_lang, extra_context=req.context_info)
-=======
-
-@router.post("/translate-text")
-def translate_text_api(req: TranslateTextRequest):
-    translated = translate.translate_text(req.text, req.target_lang)
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
     rel = f"output_{int(time.time())}.wav"
     filename = str(_AUDIO_DIR / rel)
@@ -211,10 +201,7 @@ def delete_audio(req: DeleteAudioRequest):
 def speech_to_speech_record(
     file: UploadFile = File(...),
     target_lang: str = "urdu",
-<<<<<<< HEAD
     context_info: str = "",
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 ):
     input_path = f"temp_{int(time.time())}.webm"
     wav_path = f"temp_{int(time.time())}.wav"
@@ -230,11 +217,7 @@ def speech_to_speech_record(
         if not text:
             return {"error": "No speech detected"}
 
-<<<<<<< HEAD
         translated = translate.translate_text(text, target_lang, extra_context=context_info)
-=======
-        translated = translate.translate_text(text, target_lang)
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
         display_text = text
         normalizer = getattr(translate, "normalize_transcript_for_display", None)

@@ -45,10 +45,7 @@ class HealthResponse(BaseModel):
 class TranslateTextRequest(BaseModel):
     text: str
     target_lang: str
-<<<<<<< HEAD
     context_info: str | None = None
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
 
 class DeleteAudioRequest(BaseModel):
