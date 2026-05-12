@@ -1,0 +1,87 @@
+[
+    {
+        "category": "Fertilizer",
+        "products": [
+            {
+                "name": "Sona Urea FFC",
+                "price_pkr": 4595,
+                "unit": "50kg",
+                "brand": "FFC",
+                "url": "https://kissanstore.pk/product/sona-urea-granular-ffc-fauji-fertilizer-price-in-pakistan/"
+            },
+            {
+                "name": "Sona DAP",
+                "price_pkr": 15540,
+                "unit": "50kg",
+                "brand": "FFC",
+                "url": "https://irfarm.com/collections/vendors?q=ffc"
+            },
+            {
+                "name": "Zarkhez Khas NPK",
+                "price_pkr": 10245,
+                "unit": "50kg",
+                "brand": "Engro",
+                "url": "https://kissanstore.pk/product/zarkhez-khas-npk-15-15-15-mop-engro-fertilizer-price-in-pakistan/"
+            },
+            {
+                "name": "Sarsabz Urea",
+                "price_pkr": 4560,
+                "unit": "50kg",
+                "brand": "Fatima",
+                "url": "https://kissanstore.pk/product/sarsabz-urea-fatima-fertilizer-price-in-pakistan/"
+            }
+        ]
+    },
+    {
+        "category": "Seeds",
+        "products": [
+            {
+                "name": "Diamond Hybrid Rice seed 152",
+                "price_pkr": 10500,
+                "unit": "5kg",
+                "brand": "Suncrop",
+                "url": "https://growpak.store/product/diamond-hybrid-rice-seed-152/"
+            },
+            {
+                "name": "Gold Sun-501 (Rice)",
+                "price_pkr": 12000,
+                "unit": "5kg",
+                "brand": "Agricom",
+                "url": "https://growpak.store/product/narc-hybrid-rice-seed/"
+            },
+            {
+                "name": "Wheat Seeds AAS-11",
+                "price_pkr": 7700,
+                "unit": "40kg",
+                "brand": "Agricom",
+                "url": "https://growpak.store/product/wheat-seeds-ass-11/"
+            }
+        ]
+    },
+    {
+        "category": "Pest Control",
+        "products": [
+            {
+                "name": "Coragen FMC",
+                "technical": "Chlorantraniliprole 20% SC",
+                "price_pkr": 1300,
+                "unit": "50ml",
+                "url": "https://zaraidawai.pk/product/coragen-fmc/"
+            },
+            {
+                "name": "Checkworm",
+                "technical": "Emamectin Benzoate",
+                "price_pkr": 999,
+                "unit": "150ml",
+                "url": "https://kissancares.com/shop?s=IR-Farm&i=26"
+            },
+            {
+                "name": "Topsin-M 70 WP",
+                "technical": "Thiophanate-Methyl",
+                "price_pkr": 2249,
+                "unit": "400gm",
+                "url": "https://kissangharstore.com/"
+            }
+        ]
+    }
+]
