@@ -10,7 +10,10 @@
   animation: messageSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 .typing-indicator__avatar {
   width: 36px;
   height: 36px;
@@ -53,7 +56,10 @@
   border-bottom-left-radius: 4px;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 .typing-indicator__dot {
   width: 8px;
   height: 8px;
