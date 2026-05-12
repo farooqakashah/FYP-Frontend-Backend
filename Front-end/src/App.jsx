@@ -5,10 +5,7 @@ import ChatMessage from './components/ChatMessage';
 import ChatInput from './components/ChatInput';
 import TypingIndicator from './components/TypingIndicator';
 import WelcomeScreen from './components/WelcomeScreen';
-<<<<<<< HEAD
 import FeatureModal from './components/FeatureModal';
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 import {
   suggestions,
   urduSuggestions,
@@ -39,7 +36,6 @@ export default function App() {
   // 💬 Chat state
   const [messages, setMessages] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
-<<<<<<< HEAD
   const [chatHistory, setChatHistory] = useState(() => {
     try {
       const saved = localStorage.getItem("agri_chats");
@@ -48,9 +44,6 @@ export default function App() {
       return [];
     }
   });
-=======
-  const [chatHistory] = useState([]);
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
   // ☁️ Weather state
   const [weather, setWeather] = useState(null);
@@ -59,7 +52,6 @@ export default function App() {
 
   // 🎛 UI state
   const [isTyping, setIsTyping] = useState(false);
-<<<<<<< HEAD
   const [isProcessingVoice, setIsProcessingVoice] = useState(false);
   const [language, setLanguage] = useState(() => localStorage.getItem('agri_lang') || 'en');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -68,11 +60,6 @@ export default function App() {
   const [activeFeature, setActiveFeature] = useState(null);
 
   const isCancelingRef = useRef(false);
-=======
-  const [language, setLanguage] = useState(() => localStorage.getItem('agri_lang') || 'en');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isRecording, setIsRecording] = useState(false);
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
   const chatAreaRef = useRef(null);
   const audioRef = useRef(null); // currently playing audio (for Stop)
@@ -230,7 +217,6 @@ export default function App() {
       };
 
       mediaRecorder.onstop = async () => {
-<<<<<<< HEAD
         setIsRecording(false);
         streamRef.current?.getTracks().forEach(t => t.stop());
 
@@ -243,71 +229,6 @@ export default function App() {
           type: "audio/webm"
         });
         setRecordedAudioBlob(audioBlob);
-=======
-        // Recording is already stopped; update UI immediately and release mic.
-        setIsRecording(false);
-        streamRef.current?.getTracks().forEach(t => t.stop());
-
-        const statusId = Date.now() + 100;
-        setMessages(prev => [
-          ...prev,
-          {
-            id: statusId,
-            role: "status",
-            text: "Processing voice… (transcribe → translate → generate audio)",
-            time: getTimestamp()
-          }
-        ]);
-
-        try {
-          setIsTyping(true);
-          const audioBlob = new Blob(audioChunksRef.current, {
-            type: "audio/webm"
-          });
-
-          const formData = new FormData();
-          formData.append("file", audioBlob, "voice.webm");
-
-          const response = await fetch(
-            `http://127.0.0.1:8000/speech-to-speech-record?target_lang=${langMap[language]}`,
-            {
-              method: "POST",
-              body: formData
-            }
-          );
-
-          const data = await response.json();
-
-          setMessages(prev => [
-            ...prev.filter(m => m.id !== statusId),
-            {
-              id: Date.now(),
-              role: "user",
-              text: data.original_text || "Voice message",
-              time: getTimestamp()
-            },
-            {
-              id: Date.now() + 1,
-              role: "ai",
-              text: data.translated_text || "No response",
-              time: getTimestamp(),
-              audio_url: data.audio_url || null,
-            }
-          ]);
-
-          if (data.audio_url) {
-            const audio = new Audio(`http://127.0.0.1:8000${data.audio_url}`);
-            audioRef.current = audio;
-            audio.play().catch(() => {});
-          }
-
-        } catch (err) {
-          console.error("Voice error:", err);
-          setMessages(prev => prev.filter(m => m.id !== statusId));
-        } finally {
-          setIsTyping(false);
-        }
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
       };
 
       mediaRecorder.start();
@@ -320,20 +241,11 @@ export default function App() {
 
   const stopRecording = () => {
     const mediaRecorder = mediaRecorderRef.current;
-<<<<<<< HEAD
     if (mediaRecorder && mediaRecorder.state === "recording") {
-=======
-    if (!mediaRecorder) return;
-
-    if (mediaRecorder.state === "recording") {
-      // Immediately update UI so user doesn't think it's "frozen"
-      setIsRecording(false);
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
       mediaRecorder.stop();
     }
   };
 
-<<<<<<< HEAD
   const cancelRecording = () => {
     const mediaRecorder = mediaRecorderRef.current;
     if (mediaRecorder && mediaRecorder.state === "recording") {
@@ -401,8 +313,6 @@ export default function App() {
   };
 
 
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
   // 💬 TEXT SEND
   const handleSend = useCallback(async (text) => {
 
@@ -426,12 +336,8 @@ export default function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           text,
-<<<<<<< HEAD
           target_lang: langMap[language],
           context_info: `Month: ${new Date().toLocaleString('en-US', { month: 'long' })}, Location: ${weather?.city || 'Unknown'}`
-=======
-          target_lang: langMap[language]
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
         })
       });
 
@@ -479,7 +385,6 @@ export default function App() {
     setLanguage(lang);
   }, []);
 
-<<<<<<< HEAD
   const handleSelectChat = useCallback((id) => {
     setActiveChatId(id);
     const selected = chatHistory.find(c => c.id === id);
@@ -536,8 +441,6 @@ export default function App() {
     localStorage.setItem("agri_chats", JSON.stringify(chatHistory));
   }, [chatHistory]);
 
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
   const currentSuggestions = suggestionMap[language] || suggestions;
 
   return (
@@ -552,12 +455,8 @@ export default function App() {
           setMessages([]);
           setActiveChatId(null);
         }}
-<<<<<<< HEAD
         onSelectChat={handleSelectChat}
         onDeleteChat={handleDeleteChat}
-=======
-        onSelectChat={(id) => setActiveChatId(id)}
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
         isOpen={sidebarOpen}
         onToggle={() => setSidebarOpen(p => !p)}
       />
@@ -578,11 +477,7 @@ export default function App() {
 
         <div className="app__chat-area" ref={chatAreaRef}>
 
-<<<<<<< HEAD
           {messages.length === 0 && !isTyping && !isProcessingVoice ? (
-=======
-          {messages.length === 0 ? (
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
             <WelcomeScreen
               language={language}
             />
@@ -599,13 +494,9 @@ export default function App() {
                 />
               ))}
 
-<<<<<<< HEAD
               {(isTyping || isProcessingVoice) && (
                 <TypingIndicator language={language} mode={isProcessingVoice ? 'voice' : 'text'} />
               )}
-=======
-              {isTyping && <TypingIndicator language={language} />}
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
             </div>
           )}
@@ -618,7 +509,6 @@ export default function App() {
   disabled={isTyping}
   onToggleMic={toggleRecording}
   isRecording={isRecording}
-<<<<<<< HEAD
   recordedAudioBlob={recordedAudioBlob}
   onCancelAudio={cancelRecording}
   onSendAudio={sendRecordedAudio}
@@ -631,11 +521,6 @@ export default function App() {
       setActiveChatId(currentId);
     }
 
-=======
-  onUploadComplete={(data) => {
-
-    // user message (original text)
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
     setMessages(prev => [
       ...prev,
       {
@@ -643,16 +528,7 @@ export default function App() {
         role: "user",
         text: data.original_text || "Audio message",
         time: getTimestamp()
-<<<<<<< HEAD
       },
-=======
-      }
-    ]);
-
-    // AI message
-    setMessages(prev => [
-      ...prev,
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
       {
         id: Date.now() + 1,
         role: "ai",
@@ -671,7 +547,6 @@ export default function App() {
   }}
 />
       </main>
-<<<<<<< HEAD
       {activeFeature && (
         <FeatureModal
           feature={activeFeature}
@@ -679,8 +554,6 @@ export default function App() {
           onClose={() => setActiveFeature(null)}
         />
       )}
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
     </div>
   );
 }
