@@ -5,7 +5,6 @@ import threading
 import queue
 
 import numpy as np
-import sounddevice as sd
 import soundfile as sf
 import streamlit as st
 
@@ -136,33 +135,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-def _record_from_mic(seconds: int) -> str:
-    """Record audio from system microphone, save to temp WAV, and return path."""
-    samplerate = config.SAMPLE_RATE
-    st.info(f"Recording for {seconds} seconds...")
-    audio = sd.rec(int(seconds * samplerate), samplerate=samplerate, channels=1, dtype="float32")
-    sd.wait()
-
-    out_path = config.TEMP_INPUT_WAV_PATH
-    sf.write(out_path, audio.flatten(), samplerate)
-    return out_path
-
-
-def _record_continuous(samplerate: int, stop_event: threading.Event, audio_queue: queue.Queue):
-    """Record audio continuously until stop_event is set."""
-    audio_data = []
-    
-    def callback(indata, frames, time, status):
-        if status:
-            print(status)
-        audio_data.append(indata.copy())
-    
-    with sd.InputStream(samplerate=samplerate, channels=1, dtype="float32", callback=callback):
-        while not stop_event.is_set():
-            time.sleep(0.1)
-    
-    if audio_data:
-        audio_queue.put(np.concatenate(audio_data, axis=0))
+# Recording functions removed due to system audio dependency
 
 
 def main() -> None:
@@ -177,184 +150,9 @@ def main() -> None:
     default_index = language_options.index(config.TARGET_LANGUAGE) if config.TARGET_LANGUAGE in language_options else 0
     target_lang = st.sidebar.selectbox("Target language", language_options, index=default_index)
 
-    tab_mic, tab_upload = st.tabs(["Microphone", "Upload Audio File"])
+    tab_upload, = st.tabs(["Upload Audio File"])
 
-    with tab_mic:
-        st.subheader("Record from Microphone")
-        st.caption("Use your system default microphone. Whisper will auto-detect the spoken language.")
-
-        # Initialize session state for recording
-        if 'recording' not in st.session_state:
-            st.session_state.recording = False
-        if 'stop_recording' not in st.session_state:
-            st.session_state.stop_recording = threading.Event()
-        if 'audio_queue' not in st.session_state:
-            st.session_state.audio_queue = queue.Queue()
-        if 'recording_thread' not in st.session_state:
-            st.session_state.recording_thread = None
-        if 'processed_audio_path' not in st.session_state:
-            st.session_state.processed_audio_path = None
-
-        col1, col2 = st.columns([1, 2])
-        with col1:
-            # Recording controls
-            button_col1, button_col2 = st.columns(2)
-            
-            with button_col1:
-                if st.button("START", type="primary", disabled=st.session_state.recording):
-                    # Clear previous results and processing state
-                    st.session_state.processed_audio_path = None
-                    st.session_state.processing_step = None
-                    if 'transcribed_text' in st.session_state:
-                        del st.session_state.transcribed_text
-                    if 'translated_text' in st.session_state:
-                        del st.session_state.translated_text
-                    if 'translated_text_display' in st.session_state:
-                        del st.session_state.translated_text_display
-                    if 'translated_text_audio' in st.session_state:
-                        del st.session_state.translated_text_audio
-                    if 'output_audio_path' in st.session_state:
-                        del st.session_state.output_audio_path
-                    
-                    st.session_state.recording = True
-                    st.session_state.stop_recording.clear()
-                    st.session_state.audio_queue = queue.Queue()
-                    st.session_state.recording_thread = threading.Thread(
-                        target=_record_continuous,
-                        args=(config.SAMPLE_RATE, st.session_state.stop_recording, st.session_state.audio_queue)
-                    )
-                    st.session_state.recording_thread.start()
-                    st.rerun()
-            
-            with button_col2:
-                if st.button("STOP", disabled=not st.session_state.recording):
-                    st.session_state.recording = False
-                    st.session_state.stop_recording.set()
-                    if st.session_state.recording_thread:
-                        st.session_state.recording_thread.join(timeout=3)
-                    
-                    # Wait a bit for audio to be queued
-                    time.sleep(0.5)
-                    
-                    # Process the recorded audio
-                    if not st.session_state.audio_queue.empty():
-                        audio_data = st.session_state.audio_queue.get()
-                        if audio_data is not None and len(audio_data) > 0:
-                            out_path = config.TEMP_INPUT_WAV_PATH
-                            sf.write(out_path, audio_data.flatten(), config.SAMPLE_RATE)
-                            st.session_state.processed_audio_path = out_path
-                            st.rerun()
-                        else:
-                            st.error("No audio data captured. Please try recording again.")
-                    else:
-                        st.warning("Recording stopped, but no audio was captured. Please try again.")
-            
-            # Recording status
-            if st.session_state.recording:
-                st.markdown(
-                    '<div class="recording-status recording-active"> RECORDING... Click Stop when finished</div>',
-                    unsafe_allow_html=True
-                )
-            
-            # Process audio if available
-            if st.session_state.processed_audio_path and os.path.exists(st.session_state.processed_audio_path):
-                audio_path = st.session_state.processed_audio_path
-                st.success("Audio recorded successfully")
-                
-                # Show raw audio
-                with open(audio_path, "rb") as f:
-                    audio_bytes = f.read()
-                st.audio(audio_bytes, format="audio/wav")
-                
-                # Initialize processing state
-                if 'processing_step' not in st.session_state:
-                    st.session_state.processing_step = None
-                
-                # Process audio step by step
-                if st.button("PROCESS"):
-                    st.session_state.processing_step = 'transcribing'
-                    st.rerun()
-                
-                # Step 1: Transcribing
-                if st.session_state.processing_step == 'transcribing':
-                    with st.spinner(" Transcribing audio..."):
-                        text, detected_lang_code = stt.speech_to_text(audio_path)
-                        detected_lang_name = stt.map_whisper_lang_to_name(detected_lang_code)
-                        
-                        # Store results in session state
-                        st.session_state.detected_lang = detected_lang_name
-                        st.session_state.detected_lang_code = detected_lang_code
-                        st.session_state.transcribed_text = text
-                        st.session_state.processing_step = 'translating'
-                        st.rerun()
-                
-                # Step 2: Translation (only if transcription is done)
-                if st.session_state.processing_step == 'translating' and 'transcribed_text' in st.session_state:
-                    with st.spinner("Translating..."):
-                        # Two-step pipeline handles Sindhi/Punjabi/Pashto internally.
-                        # Output is always correct Arabic script — use same text for display and TTS.
-                        translated = translate.translate_text(st.session_state.transcribed_text, target_lang=target_lang)
-                        st.session_state.translated_text_display = translated
-                        st.session_state.translated_text_audio = translated
-                        st.session_state.processing_step = 'synthesizing'
-                        st.rerun()
-                
-                # Step 3: TTS (only if translation is done)
-                if (
-                    st.session_state.processing_step == 'synthesizing'
-                    and 'translated_text_audio' in st.session_state
-                    and st.session_state.translated_text_audio
-                ):
-                    with st.spinner("Synthesizing speech..."):
-                        out_path = tts.text_to_speech(st.session_state.translated_text_audio, lang=target_lang, output_path=config.OUTPUT_WAV_PATH)
-                        st.session_state.output_audio_path = out_path
-                        st.session_state.processing_step = 'complete'
-                        st.rerun()
-        
-        with col2:
-            st.info(
-                "Click **Start Recording** to begin capturing audio from your microphone. "
-                "Click **Stop Recording** when finished, then click **Process Audio** to transcribe, "
-                "translate, and synthesize speech in the selected target language."
-            )
-            
-            # Display results incrementally as they become available
-            if 'transcribed_text' in st.session_state and st.session_state.transcribed_text:
-                st.markdown("---")
-                st.markdown("### Results")
-                
-                # Step 1: Show transcribed text
-                st.markdown("####  Step 1: Transcribed Text")
-                st.write(f"**Detected Language:** {st.session_state.detected_lang} (`{st.session_state.detected_lang_code}`)")
-                
-                transcribed_display = st.session_state.transcribed_text
-                st.markdown(
-                    f'<div class="urdu-text" dir="rtl">{transcribed_display}</div>',
-                    unsafe_allow_html=True
-                )
-                
-                # Step 2: Show translated text (if available)
-                if 'translated_text_display' in st.session_state and st.session_state.translated_text_display:
-                    st.markdown("####  Step 2: Translated Text")
-                    translated_display = st.session_state.translated_text_display
-                    # RTL box for all Arabic-script languages; LTR only for English
-                    if target_lang in ("urdu", "punjabi", "sindhi", "pashto"):
-                        st.markdown(
-                            f'<div class="urdu-text" dir="rtl">{translated_display}</div>',
-                            unsafe_allow_html=True
-                        )
-                    else:
-                        st.markdown(
-                            f'<div class="ltr-text" dir="ltr">{translated_display}</div>',
-                            unsafe_allow_html=True
-                        )
-                    
-                    # Step 3: Show output audio (if available)
-                    if 'output_audio_path' in st.session_state and os.path.exists(st.session_state.output_audio_path):
-                        st.markdown("####  Step 3: Output Audio")
-                        with open(st.session_state.output_audio_path, "rb") as f:
-                            out_bytes = f.read()
-                        st.audio(out_bytes, format="audio/wav")
+    # Microphone tab removed (system audio not supported in this environment)
 
     with tab_upload:
         st.subheader("Upload Audio File")

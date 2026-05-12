@@ -4,18 +4,15 @@ Audio utility functions, including playback of WAV files.
 
 from typing import Union
 
-import sounddevice as sd
 import soundfile as sf
 
 
 def play_audio(path: Union[str, bytes]) -> None:
     """
     Play the given audio file (WAV recommended).
+    (Feature disabled due to system audio dependency)
     """
-    print(f"Playing audio: {path}")
-    data, samplerate = sf.read(path, always_2d=False)
-    sd.play(data, samplerate)
-    sd.wait()
+    print(f"Skipping playback for: {path} (audio playback disabled on server)")
 
 
 __all__ = ["play_audio"]

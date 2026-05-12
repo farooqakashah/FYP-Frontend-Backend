@@ -40,43 +40,6 @@ def _get_whisper_model() -> "whisper.Whisper":
     return _whisper_model
 
 
-def record_audio(duration: int = config.DEFAULT_RECORD_SECONDS, output_path: str = config.TEMP_INPUT_WAV_PATH) -> str:
-    """
-    Record audio from the default microphone for the given duration (seconds).
-
-    Returns the path to the saved WAV file.
-    """
-    samplerate = config.SAMPLE_RATE
-    print(f"Recording audio for {duration} seconds at {samplerate} Hz...")
-
-    audio_q: "queue.Queue[np.ndarray]" = queue.Queue()
-
-    def callback(indata, frames, time, status):  # type: ignore[override]
-        if status:
-            print(f"Recording status: {status}", file=sys.stderr)
-        audio_q.put(indata.copy())
-
-    try:
-        import sounddevice as sd
-    except OSError as e:
-        raise ImportError(
-            "Could not load PortAudio. If you are running in Docker, ensure 'libportaudio2' is installed. "
-            "Recording is not supported in this environment."
-        ) from e
-
-    with sd.InputStream(samplerate=samplerate, channels=1, callback=callback):
-        frames = []
-        for _ in range(int(duration * samplerate / 1024) + 1):
-            frames.append(audio_q.get())
-
-    audio_data = np.concatenate(frames, axis=0).flatten()
-
-    # Save as 16-bit PCM WAV
-    sf.write(output_path, audio_data, samplerate)
-    print(f"Audio saved to: {output_path}")
-    return output_path
-
-
 def _target_lang_to_whisper_code(target_lang: Optional[str]) -> Optional[str]:
     """
     Map app logical language names to Whisper language codes.

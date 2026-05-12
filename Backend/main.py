@@ -46,36 +46,6 @@ def _change_tts_voice() -> None:
     print("Supported languages: English, Urdu, Hindi, Punjabi, Sindhi, Pashto")
 
 
-def _pipeline_speak_translate_listen() -> None:
-    print("\n=== Speak → Translate → Listen ===")
-    seconds_str = input(f"Enter recording duration in seconds (default {config.DEFAULT_RECORD_SECONDS}): ").strip()
-    try:
-        seconds = int(seconds_str) if seconds_str else config.DEFAULT_RECORD_SECONDS
-    except ValueError:
-        seconds = config.DEFAULT_RECORD_SECONDS
-
-    audio_path = stt.record_audio(duration=seconds, output_path=config.TEMP_INPUT_WAV_PATH)
-    text, detected_lang_code = stt.speech_to_text(audio_path)
-    detected_lang_name = stt.map_whisper_lang_to_name(detected_lang_code)
-
-    print(f"\nDetected language (Whisper): {detected_lang_name} ({detected_lang_code})")
-    print(f"Recognized text: {text}")
-
-    if not text:
-        print("No text recognized; aborting.")
-        return
-
-    target_lang = config.TARGET_LANGUAGE
-    print(f"\nTranslating to target language: {target_lang}")
-    translated = translate.translate_text(text, target_lang=target_lang)
-    print(f"Translated text: {translated}")
-
-    if not translated:
-        print("No translated text returned; aborting TTS.")
-        return
-
-    output_audio_path = tts.text_to_speech(translated, lang=target_lang, output_path=config.OUTPUT_WAV_PATH)
-    audio_utils.play_audio(output_audio_path)
 
 
 def _pipeline_translate_existing_audio() -> None:
@@ -117,20 +87,17 @@ def main() -> None:
         print(" Multilingual S2S Translator ")
         print("==============================")
         print(f"Current target language: {config.TARGET_LANGUAGE}")
-        print("1. Speak → Translate → Listen")
-        print("2. Translate existing audio file")
-        print("3. Change target language")
-        print("4. Exit")
+        print("1. Translate existing audio file")
+        print("2. Change target language")
+        print("3. Exit")
 
-        choice = _prompt_int("Select an option: ", 1, 4)
+        choice = _prompt_int("Select an option: ", 1, 3)
 
         if choice == 1:
-            _pipeline_speak_translate_listen()
-        elif choice == 2:
             _pipeline_translate_existing_audio()
-        elif choice == 3:
+        elif choice == 2:
             _choose_target_language()
-        elif choice == 4:
+        elif choice == 3:
             print("Goodbye!")
             break
 
