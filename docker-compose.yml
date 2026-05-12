@@ -8,6 +8,12 @@ services:
     ports:
       - "8000:8000"
     restart: always
+    environment:
+      OLLAMA_BASE_URL: "http://host.docker.internal:11434"
+      WEATHER_API_KEY: "4a76f0f3857b2de460ade8f2f81810c0"
+    volumes:
+      - ./Backend/vectorstore:/app/vectorstore
+      - ./datasets:/app/datasets
 
   frontend:
     build: ./Front-end
@@ -19,7 +25,7 @@ services:
       - backend
 
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     container_name: nginx
     ports:
       - "80:80"
