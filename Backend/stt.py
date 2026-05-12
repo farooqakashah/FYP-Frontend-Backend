@@ -12,7 +12,6 @@ import sys
 from typing import TYPE_CHECKING, Tuple, Optional
 
 import numpy as np
-import sounddevice as sd
 import soundfile as sf
 
 import config
@@ -56,6 +55,14 @@ def record_audio(duration: int = config.DEFAULT_RECORD_SECONDS, output_path: str
         if status:
             print(f"Recording status: {status}", file=sys.stderr)
         audio_q.put(indata.copy())
+
+    try:
+        import sounddevice as sd
+    except OSError as e:
+        raise ImportError(
+            "Could not load PortAudio. If you are running in Docker, ensure 'libportaudio2' is installed. "
+            "Recording is not supported in this environment."
+        ) from e
 
     with sd.InputStream(samplerate=samplerate, channels=1, callback=callback):
         frames = []
