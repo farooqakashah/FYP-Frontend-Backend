@@ -1,25 +1,13 @@
-<<<<<<< HEAD
 import { History, Globe, Plus, MessageSquare, Trash2 } from 'lucide-react';
-=======
-import { History, Globe, Plus, MessageSquare } from 'lucide-react';
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 import './Sidebar.css';
 
 // ─── UI text translations ────────────────────────────────────
 const UI_TEXT = {
-<<<<<<< HEAD
   en: { newChat: 'New Chat', history: 'Chat History', language: 'Language', noHistory: 'No chats yet — start a conversation!', deleteChat: 'Delete Chat' },
   ur: { newChat: 'نئی چیٹ', history: 'چیٹ ہسٹری', language: 'زبان', noHistory: 'ابھی کوئی چیٹ نہیں — بات شروع کریں!', deleteChat: 'چیٹ ڈیلیٹ کریں' },
   sd: { newChat: 'نئين چيٽ', history: 'چيٽ جي تاريخ', language: 'ٻولي', noHistory: 'اڃا ڪا چيٽ ناهي — ڳالهه شروع ڪريو!', deleteChat: 'چيٽ ڊليٽ ڪريو' },
   pa: { newChat: 'نویں چیٹ', history: 'چیٹ ریکارڈ', language: 'بولی', noHistory: 'ہالے کوئی چیٹ نہیں — گل شروع کرو!', deleteChat: 'چیٹ ڈیلیٹ کرو' },
   ps: { newChat: 'نوې خبرې', history: 'د خبرو تاریخ', language: 'ژبه', noHistory: 'لا خبرې نشته — یوه خبره پیل کړئ!', deleteChat: 'خبرې حذف کړئ' }
-=======
-  en: { newChat: 'New Chat', history: 'Chat History', language: 'Language', noHistory: 'No chats yet — start a conversation!' },
-  ur: { newChat: 'نئی چیٹ', history: 'چیٹ ہسٹری', language: 'زبان', noHistory: 'ابھی کوئی چیٹ نہیں — بات شروع کریں!' },
-  sd: { newChat: 'نئين چيٽ', history: 'چيٽ جي تاريخ', language: 'ٻولي', noHistory: 'اڃا ڪا چيٽ ناهي — ڳالهه شروع ڪريو!' },
-  pa: { newChat: 'نویں چیٹ', history: 'چیٹ ریکارڈ', language: 'بولی', noHistory: 'ہالے کوئی چیٹ نہیں — گل شروع کرو!' },
-  ps: { newChat: 'نوې خبرې', history: 'د خبرو تاریخ', language: 'ژبه', noHistory: 'لا خبرې نشته — یوه خبره پیل کړئ!' }
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 };
 
 // Language buttons config
@@ -44,10 +32,7 @@ export default function Sidebar({
   onLanguageChange,
   onNewChat,
   onSelectChat,
-<<<<<<< HEAD
   onDeleteChat,
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
   isOpen,
   onToggle
 }) {
@@ -90,7 +75,6 @@ export default function Sidebar({
                     className={`sidebar__chat-item ${activeChatId === chat.id ? 'sidebar__chat-item--active' : ''}`}
                     onClick={() => onSelectChat(chat.id)}
                   >
-<<<<<<< HEAD
                     <div className="sidebar__chat-item-left">
                       <MessageSquare size={16} style={{ flexShrink: 0 }} />
                       <span className="sidebar__chat-title">{chat.title}</span>
@@ -106,10 +90,6 @@ export default function Sidebar({
                     >
                       <Trash2 size={14} />
                     </button>
-=======
-                    <MessageSquare size={16} style={{ flexShrink: 0 }} />
-                    <span className="sidebar__chat-title">{chat.title}</span>
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
                   </div>
                 ))}
               </div>
