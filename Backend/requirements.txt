@@ -1,0 +1,15 @@
+openai-whisper
+sounddevice
+soundfile
+numpy
+streamlit
+gtts
+pydub
+edge-tts
+python-dotenv
+fastapi
+uvicorn
+python-multipart
+requests
+chromadb
+

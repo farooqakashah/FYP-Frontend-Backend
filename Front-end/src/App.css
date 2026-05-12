@@ -1,0 +1,258 @@
+/* =============================================
+   GLOBAL APP STYLES
+   ============================================= */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* ─── CSS Reset & Base ───────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Primary Palette — Agricultural Greens */
+  --green-50: #e8f5e9;
+  --green-100: #c8e6c9;
+  --green-200: #a5d6a7;
+  --green-300: #81c784;
+  --green-400: #66bb6a;
+  --green-500: #4caf50;
+  --green-600: #43a047;
+  --green-700: #388e3c;
+  --green-800: #2e7d32;
+  --green-900: #1b5e20;
+
+  /* Dark Background Tones */
+  --bg-primary: #04090c;
+  --bg-secondary: #0a1118;
+  --bg-tertiary: #0f172a;
+  --bg-card: rgba(15, 23, 42, 0.4);
+
+  /* Border Colors */
+  --border-subtle: rgba(76, 175, 80, 0.12);
+  --border-default: rgba(76, 175, 80, 0.2);
+  --border-hover: rgba(76, 175, 80, 0.4);
+
+  /* Text Colors */
+  --text-primary: #e8f5e9;
+  --text-secondary: rgba(200, 230, 201, 0.8);
+  --text-muted: rgba(165, 214, 167, 0.5);
+
+  /* Spacing */
+  --sidebar-width: 280px;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: radial-gradient(circle at center, #1f422b 0%, #0a1f18 50%, #020604 100%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  overflow: hidden;
+  height: 100vh;
+}
+
+#root {
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── App Layout ─────────────────────────────── */
+.app {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Background Decorations ─────────────────── */
+.app__bg-decoration {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.app__bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.07;
+}
+
+.app__bg-circle--1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #2e7d32, transparent);
+  top: -200px;
+  right: -100px;
+  animation: bgFloat1 20s ease-in-out infinite;
+}
+
+.app__bg-circle--2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #1b5e20, transparent);
+  bottom: -150px;
+  left: -100px;
+  animation: bgFloat2 25s ease-in-out infinite;
+}
+
+.app__bg-circle--3 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #4caf50, transparent);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: bgFloat3 18s ease-in-out infinite;
+}
+
+@keyframes bgFloat1 {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(-30px, 40px);
+  }
+}
+
+@keyframes bgFloat2 {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(40px, -30px);
+  }
+}
+
+@keyframes bgFloat3 {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%);
+  }
+
+  50% {
+    transform: translate(-45%, -55%);
+  }
+}
+
+/* ─── Main Content Area ──────────────────────── */
+.app__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+/* ─── Chat Area ──────────────────────────────── */
+.app__chat-area {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(76, 175, 80, 0.2) transparent;
+}
+
+.app__chat-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.app__chat-area::-webkit-scrollbar-thumb {
+  background: rgba(76, 175, 80, 0.2);
+  border-radius: 6px;
+}
+
+.app__chat-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(76, 175, 80, 0.35);
+}
+
+/* ─── Messages Container ─────────────────────── */
+.app__messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 4px;
+}
+
+
+/* ─── Selection Color ────────────────────────── */
+::selection {
+  background: rgba(76, 175, 80, 0.3);
+  color: #e8f5e9;
+}
+
+/* ─── Focus Visible ──────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--green-500);
+  outline-offset: 2px;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 768px) {
+  .app {
+    height: 100vh;
+    height: 100dvh;
+    /* Accounts for mobile browser chrome */
+  }
+
+  .app__main {
+    /* Ensure the main area fills available space properly */
+    min-height: 0;
+  }
+
+  .app__chat-area {
+    /* Ensure proper scrolling on mobile */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .app__messages {
+    padding: 12px 10px;
+    gap: 2px;
+  }
+
+
+  /* Hide background decorations on mobile for performance */
+  .app__bg-circle {
+    display: none;
+  }
+}
+
+/* ─── Very Small Screens (< 380px) ──────────── */
+@media (max-width: 380px) {
+  .app__messages {
+    padding: 8px 6px;
+  }
+}
+
+/* ─── Safe Area Insets (notch devices) ───────── */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .app__main {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
