@@ -308,7 +308,6 @@ export const placeholderTexts = {
 // Quick reply chip configurations (above input field)
 export const quickReplyChips = {
   en: [
-<<<<<<< HEAD
     { icon: "Sun", label: "Weather Forecast", action: "weather" },
     { icon: "TrendingUp", label: "Market Rates", action: "market" },
     { icon: "Wheat", label: "Agronomy", action: "agronomy" },
@@ -332,46 +331,6 @@ export const quickReplyChips = {
     { icon: "Sun", label: "هوا", action: "weather" },
     { icon: "TrendingUp", label: "بيې", action: "market" },
     { icon: "Wheat", label: "کرنه", action: "agronomy" },
-=======
-    { icon: "Sun", label: "Weather Forecast", query: "What's the weather forecast for farming this week?" },
-    { icon: "Bug", label: "Pest ID", query: "How can I identify pests in my crops?" },
-    { icon: "TestTube", label: "Soil Health", query: "How should I test my soil health before planting?" },
-    { icon: "Droplet", label: "Irrigation", query: "What are the best irrigation practices for my farm?" },
-    { icon: "Wheat", label: "Crop Guide", query: "What is the best crop to plant this season?" },
-    { icon: "TrendingUp", label: "Market Prices", query: "What are the current market prices for crops?" },
-  ],
-  ur: [
-    { icon: "Sun", label: "موسم", query: "اس ہفتے کھیتی کے لیے موسم کی پیشن گوئی کیا ہے؟" },
-    { icon: "Bug", label: "کیڑے", query: "فصلوں میں کیڑوں کی شناخت کیسے کروں؟" },
-    { icon: "TestTube", label: "مٹی", query: "بوائی سے پہلے مٹی کی جانچ کیسے کریں؟" },
-    { icon: "Droplet", label: "آبپاشی", query: "بہترین آبپاشی کے طریقے کیا ہیں؟" },
-    { icon: "Wheat", label: "فصل", query: "اس موسم میں کون سی فصل لگائیں؟" },
-    { icon: "TrendingUp", label: "قیمتیں", query: "فصلوں کی موجودہ مارکیٹ قیمتیں کیا ہیں؟" },
-  ],
-  sd: [
-    { icon: "Sun", label: "موسم", query: "هن هفتي ڪاشتڪاري لاءِ موسم جي اڳڪٿي ڇا آهي؟" },
-    { icon: "Bug", label: "ڪيڙا", query: "فصلن ۾ ڪيڙن جي سڃاڻپ ڪيئن ڪجي؟" },
-    { icon: "TestTube", label: "مٽي", query: "ٻوائي کان اڳ مٽي جي جانچ ڪيئن ڪجي؟" },
-    { icon: "Droplet", label: "پاڻي", query: "بهترين پاڻي ڏيڻ جا طريقا ڪهڙا آهن؟" },
-    { icon: "Wheat", label: "فصل", query: "هن موسم ۾ ڪهڙي فصل لڳايو؟" },
-    { icon: "TrendingUp", label: "قيمت", query: "فصلن جون موجوده مارڪيٽ قيمتون ڪهڙيون آهن؟" },
-  ],
-  pa: [
-    { icon: "Sun", label: "موسم", query: "اس ہفتے کھیتی لئی موسم دی پیشنگوئی کیہ اے؟" },
-    { icon: "Bug", label: "کیڑا", query: "فصلاں وچ کیڑیاں دی پہچان کیویں کرئیے؟" },
-    { icon: "TestTube", label: "مٹی", query: "بیجن توں پہلاں مٹی دی جانچ کیویں کرئیے؟" },
-    { icon: "Droplet", label: "پانی", query: "بہترین پانی دین دے طریقے کیہ نے؟" },
-    { icon: "Wheat", label: "فصل", query: "اس موسم وچ کیہڑی فصل لائیے؟" },
-    { icon: "TrendingUp", label: "قیمت", query: "فصلاں دیاں مارکیٹ قیمتاں کیہ نے؟" },
-  ],
-  ps: [
-    { icon: "Sun", label: "هوا", query: "دمې اونۍ کې د کرنې لپاره موسم څرنګه دی؟" },
-    { icon: "Bug", label: "تاړی", query: "په فصلونو کې حشرې څرنګه پیژني؟" },
-    { icon: "TestTube", label: "خاوره", query: "مخکې له کر کولو څخه د خاورې ازموینه څرنګه واخلم؟" },
-    { icon: "Droplet", label: "اوبه", query: "ښې اوبړل به کوم طریقو سره کېږي؟" },
-    { icon: "Wheat", label: "فصله", query: "په دې موسم کې څه فصل ښې دی؟" },
-    { icon: "TrendingUp", label: "بيې", query: "دم مهال د فصولو بازار بيې څومره دي؟" },
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
   ]
 };
 

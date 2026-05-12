@@ -16,19 +16,11 @@ except Exception:
     pass
 
 # =========================
-<<<<<<< HEAD
 # Ollama (local LLM, e.g. gemma3:4b)
 # =========================
 
 OLLAMA_BASE_URL: str = (os.getenv("OLLAMA_BASE_URL") or "http://127.0.0.1:11434").strip().rstrip("/")
 OLLAMA_MODEL: str = (os.getenv("OLLAMA_MODEL") or "gemma3:4b").strip()
-=======
-# Ollama (local LLM, e.g. Qwen 3.5)
-# =========================
-
-OLLAMA_BASE_URL: str = (os.getenv("OLLAMA_BASE_URL") or "http://127.0.0.1:11434").strip().rstrip("/")
-OLLAMA_MODEL: str = (os.getenv("OLLAMA_MODEL") or "qwen3.5").strip()
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 OLLAMA_MODEL_FALLBACK: str = (os.getenv("OLLAMA_MODEL_FALLBACK") or "").strip()
 OLLAMA_TIMEOUT_SEC: float = float(os.getenv("OLLAMA_TIMEOUT_SEC", "120"))
 
@@ -58,4 +50,3 @@ DEFAULT_RECORD_SECONDS: int = 10
 
 OUTPUT_WAV_PATH: str = os.path.join(os.path.dirname(__file__), "output.wav")
 TEMP_INPUT_WAV_PATH: str = os.path.join(os.path.dirname(__file__), "input.wav")
-

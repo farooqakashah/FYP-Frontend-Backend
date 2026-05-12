@@ -1,9 +1,5 @@
 """
-<<<<<<< HEAD
 Translation and text helpers using a local Ollama model (e.g. gemma3:4b).
-=======
-Translation and text helpers using a local Ollama model (e.g. Qwen 3.5).
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
 For Sindhi, Punjabi, and Pashto a reliable two-step pipeline is used:
   1. Generate the agricultural answer in Urdu (which the LLM handles well).
@@ -471,10 +467,7 @@ def translate_text(
     thinking: bool = False,
     progress_callback: Optional[Callable[[str], None]] = None,
     log_callback: Optional[Callable[[str], None]] = None,
-<<<<<<< HEAD
     extra_context: str | None = None,
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 ) -> str:
     """
     Agricultural expert reply via local Ollama (Qwen, etc.).
@@ -492,11 +485,7 @@ def translate_text(
         return ""
 
     target_lang_readable = _normalize_target_lang(target_lang)
-<<<<<<< HEAD
     primary_model = getattr(config, "OLLAMA_MODEL", "gemma3:4b")
-=======
-    primary_model = getattr(config, "OLLAMA_MODEL", "qwen3.5")
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
     target_lang_lower = target_lang_readable.lower()
 
     def _log(msg: str) -> None:
@@ -535,12 +524,9 @@ def translate_text(
             "Do NOT use chain-of-thought, hidden reasoning, or any <think> / thinking tags. "
             "Answer immediately in Urdu only."
         )
-<<<<<<< HEAD
         if extra_context:
             convo_rules += f"\n\nCONTEXT INFO: {extra_context}\nUse this context to give specific advice (e.g. best crop for this location/month) if relevant."
         
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
         urdu_msgs = [
             {"role": "system", "content": urdu_system + "\n\n" + convo_rules},
             {"role": "user", "content": text},
@@ -625,11 +611,8 @@ def translate_text(
         "Do NOT use chain-of-thought, hidden reasoning, or any <think> / thinking tags. "
         "Answer immediately in the user-facing language only."
     )
-<<<<<<< HEAD
     if extra_context:
         convo_rules += f"\n\nCONTEXT INFO: {extra_context}\nUse this context to give specific advice (e.g. best crop for this location/month) if relevant."
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
 
     def _messages(full_system: str) -> list[dict[str, str]]:
         return [
@@ -707,11 +690,7 @@ def normalize_transcript_for_display(text: str, target_lang: str) -> str:
         return text
 
     target_lang_readable = _normalize_target_lang(target_lang)
-<<<<<<< HEAD
     primary_model = getattr(config, "OLLAMA_MODEL", "gemma3:4b")
-=======
-    primary_model = getattr(config, "OLLAMA_MODEL", "qwen3.5")
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
     system_prompt = (
         f"You are a transliteration engine. Your task is to accurately convert the user's spoken {target_lang_readable} text "
         f"into its proper native Arabic/Perso-Arabic script. "
