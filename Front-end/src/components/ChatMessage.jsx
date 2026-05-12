@@ -222,7 +222,7 @@ export default function ChatMessage({
 
           {!!message.audio_url && (
             <AudioPlayer
-              src={`http://127.0.0.1:8000${message.audio_url}`}
+              src={message.audio_url}
               stopLabel={t.stop}
               deleteLabel={t.delete}
               onStop={onStopAudio}

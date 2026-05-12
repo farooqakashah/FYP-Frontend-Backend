@@ -45,6 +45,8 @@ const langMap = {
   ps: "pashto",
 };
 
+const API_BASE = '/api';
+
 export default function ChatInput({
   onSend,
   language,
@@ -111,7 +113,7 @@ export default function ChatInput({
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/speech-to-speech-record?target_lang=${langMap[language]}&context_info=${encodeURIComponent(contextInfo || '')}`,
+        `${API_BASE}/speech-to-speech-record?target_lang=${langMap[language]}&context_info=${encodeURIComponent(contextInfo || '')}`,
         {
           method: "POST",
           body: formData

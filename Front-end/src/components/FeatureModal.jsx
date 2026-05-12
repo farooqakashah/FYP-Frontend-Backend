@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { X, Loader2, Cloud, TrendingUp, Wheat } from 'lucide-react';
 import './FeatureModal.css';
 
+const API_BASE = '/api';
+
 const UI_TEXT = {
   en: {
     weather: 'Weather Forecast',
@@ -92,12 +94,12 @@ export default function FeatureModal({ feature, language, onClose }) {
         if (feature === 'weather') {
           const pos = await getCurrentPosition();
           const { latitude, longitude } = pos.coords;
-          const res = await fetch(`http://127.0.0.1:8000/weather-forecast-10?lat=${latitude}&lon=${longitude}`);
+          const res = await fetch(`${API_BASE}/weather-forecast-10?lat=${latitude}&lon=${longitude}`);
           if (!res.ok) throw new Error("Weather fetch failed");
           const json = await res.json();
           if (isMounted) setData(json.list);
         } else if (feature === 'market') {
-          const res = await fetch(`http://127.0.0.1:8000/market-rates-data`);
+          const res = await fetch(`${API_BASE}/market-rates-data`);
           if (!res.ok) throw new Error("Market fetch failed");
           const json = await res.json();
           if (isMounted) setData(json);
@@ -105,7 +107,7 @@ export default function FeatureModal({ feature, language, onClose }) {
           const pos = await getCurrentPosition().catch(() => ({ coords: { latitude: 30.3753, longitude: 69.3451 } })); // default to PK center if blocked
           const { latitude, longitude } = pos.coords;
           const month = new Date().toLocaleString('en-US', { month: 'long' });
-          const res = await fetch(`http://127.0.0.1:8000/agronomy-advice`, {
+          const res = await fetch(`${API_BASE}/agronomy-advice`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ lat: latitude, lon: longitude, month, language: langMap[language] || 'english' })

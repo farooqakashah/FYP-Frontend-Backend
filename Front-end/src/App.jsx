@@ -31,6 +31,8 @@ const suggestionMap = {
   ps: pashtoSuggestions,
 };
 
+const API_BASE = '/api';
+
 export default function App() {
 
   // 💬 Chat state
@@ -96,9 +98,7 @@ export default function App() {
       const position = await getCurrentPosition();
       const { latitude, longitude } = position.coords;
 
-      const url = `http://127.0.0.1:8000/weather?lat=${encodeURIComponent(
-        latitude
-      )}&lon=${encodeURIComponent(longitude)}`;
+      const url = `${API_BASE}/weather?lat=${encodeURIComponent(latitude)}&lon=${encodeURIComponent(longitude)}`;
 
       const res = await fetch(url);
       if (!res.ok) {
@@ -156,7 +156,7 @@ export default function App() {
     }
 
     try {
-      await fetch("http://127.0.0.1:8000/delete-audio", {
+      await fetch(`${API_BASE}/delete-audio`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ audio_url: audioUrl }),
@@ -273,7 +273,7 @@ export default function App() {
 
       const currentContext = `Month: ${new Date().toLocaleString('en-US', { month: 'long' })}, Location: ${weather?.city || 'Unknown'}`;
       const response = await fetch(
-        `http://127.0.0.1:8000/speech-to-speech-record?target_lang=${langMap[language]}&context_info=${encodeURIComponent(currentContext)}`,
+        `${API_BASE}/speech-to-speech-record?target_lang=${langMap[language]}&context_info=${encodeURIComponent(currentContext)}`,
         {
           method: "POST",
           body: formData
@@ -300,7 +300,7 @@ export default function App() {
       ]);
 
       if (data.audio_url) {
-        const audio = new Audio(`http://127.0.0.1:8000${data.audio_url}`);
+        const audio = new Audio(data.audio_url);
         audioRef.current = audio;
         audio.play().catch(() => {});
       }
@@ -331,7 +331,7 @@ export default function App() {
     setIsTyping(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/translate-text", {
+      const response = await fetch(`${API_BASE}/translate-text`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -354,7 +354,7 @@ export default function App() {
       setMessages(prev => [...prev, aiMessage]);
 
       if (data?.audio_url) {
-        const audio = new Audio(`http://127.0.0.1:8000${data.audio_url}`);
+        const audio = new Audio(data.audio_url);
         audioRef.current = audio;
         audio.play().catch(() => {});
       }
@@ -540,7 +540,7 @@ export default function App() {
 
     // audio play
     if (data.audio_url) {
-      const audio = new Audio(`http://127.0.0.1:8000${data.audio_url}`);
+      const audio = new Audio(data.audio_url);
       audioRef.current = audio;
       audio.play().catch(() => {});
     }
