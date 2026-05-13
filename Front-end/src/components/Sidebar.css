@@ -88,10 +88,7 @@
 .sidebar__chat-item {
   display: flex;
   align-items: center;
-<<<<<<< HEAD
   justify-content: space-between;
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
   gap: 10px;
   padding: 10px 12px;
   border-radius: 10px;
@@ -102,7 +99,7 @@
   margin-bottom: 2px;
 }
 
-<<<<<<< HEAD
+
 .sidebar__chat-item-left {
   display: flex;
   align-items: center;
@@ -135,8 +132,7 @@
   color: #ff6b6b;
 }
 
-=======
->>>>>>> 47fa9d2ef9e449ef67475d4a8d8dbb48b5ee9e50
+
 .sidebar__chat-item:hover {
   background: rgba(46, 125, 50, 0.2);
   color: #c8e6c9;
