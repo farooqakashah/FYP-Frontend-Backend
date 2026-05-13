@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "start": "HOST=0.0.0.0 react-scripts start"
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
