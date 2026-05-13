@@ -31,7 +31,7 @@ const suggestionMap = {
   ps: pashtoSuggestions,
 };
 
-const API_BASE = '/api';
+const API_BASE = 'http://3.13.46.128:8000';
 
 export default function App() {
 
