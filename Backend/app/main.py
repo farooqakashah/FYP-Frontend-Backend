@@ -13,7 +13,6 @@ settings.audio_dir.mkdir(parents=True, exist_ok=True)
 app = FastAPI(title="Multilingual Voice RAG API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
     allow_origins=["http://3.13.46.128:3000"],
     allow_credentials=True,
     allow_methods=["*"],
