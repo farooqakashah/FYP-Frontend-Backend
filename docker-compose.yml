@@ -6,6 +6,8 @@ services:
     build: ./Backend
     container_name: backend
     network_mode: host
+    ports:
+      - "8000:8000"
     restart: always
     environment:
       OLLAMA_BASE_URL: "http://host.docker.internal:11434"
